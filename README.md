@@ -2,7 +2,5 @@
 scripts to make development easier
 
 ## setup
-```
-mkdir -p ~/repos/github.com/habof
-cd ~/repos/github.com/habof
-```
+
+Clone this repo into your home directory so that you may reference all scripts from within ~/devops
