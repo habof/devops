@@ -9,6 +9,4 @@ if [ ! -n "${HOSTNAME}" ]; then
     HOSTNAME=`hostname`
 fi
 
-devops_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
+source ~/devops/bash_functions/devops_git_branch.sh
