@@ -3,9 +3,10 @@ scripts to make development easier
 
 ## setup
 
-Clone this repo into your home directory so that you may reference all scripts from within ~/devops
-
-Add this line at the end of ~/.bashrc
+* Clone this repo into your home directory so that you may reference all scripts from within ~/devops
+* Make a copy of ~/devops/.bashrc-example as ~/devops/.bashrc
+* Make any changes you'd like in the preferences section of ~/devops/.bashrc
+* Add this line at the end of ~/.bashrc
 
 ```
 source ~/devops/.bashrc

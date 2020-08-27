@@ -1,0 +1,19 @@
+
+# sometimes USER isn't set on windows
+if [ ! -n "${USER}" ]; then
+    USER=`basename ${HOME}` 
+fi
+
+ # sometimes HOSTNAME isn't set on windows
+if [ ! -n "${HOSTNAME}" ]; then
+    HOSTNAME=`hostname`
+fi
+
+# set your DEVOPS preferences
+DEVOPS_GIT_CLONE_PATH=${HOME}/branches
+export DEVOPS_GIT_CLONE_PATH
+DEVOPS_GIT_CLONE_STYLE=branch-namespace
+export DEVOPS_GIT_CLONE_STYLE
+
+source ~/devops/devops_init.sh
+
