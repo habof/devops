@@ -3,7 +3,7 @@
 source ~/devops/devops_init.sh
 
 # set your DEVOPS preferences
-DEVOPS_GIT_CLONE_PATH=${HOME}/branches
+DEVOPS_GIT_CLONE_PATH=${HOME}/gitb
 export DEVOPS_GIT_CLONE_PATH
 DEVOPS_GIT_CLONE_STYLE=branch-namespace
 export DEVOPS_GIT_CLONE_STYLE

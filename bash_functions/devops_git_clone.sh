@@ -94,10 +94,10 @@ case "${1}" in
 	delete=true
 	;;
     -h|--help)
-    echo "$help_text"
+    devops_return_success "$help_text"
     ;;
     *)
-	echo "Invalid argument"
+	devops_return_error "Invalid argument"
 esac
 shift
 done
@@ -119,6 +119,7 @@ name=`devops_git_url_parse ${url} name`
 dirshort=`devops_git_url_parse ${url} dirshort`
 dirlong=`devops_git_url_parse ${url} dirlong`
 
+mkdir -p ${path}
 cd_to=${path}
 clone_as=${name}
 add_branch=" --branch ${branch}"
