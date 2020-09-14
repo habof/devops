@@ -65,21 +65,21 @@ case "${1}" in
 	--url=*)
 	url="${1#*=}"
 	;;
-	-e)
+	-u)
 	url="${2}"
     shift
 	;;
 	--branch=*)
 	branch="${1#*=}"
 	;;
-	-s)
+	-b)
 	branch="${2}"
     shift
 	;;
 	--path=*)
 	path="${1#*=}"
 	;;
-	-a)
+	-p)
 	path="${2}"
     shift
 	;;
