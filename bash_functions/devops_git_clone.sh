@@ -18,7 +18,10 @@ Usage: devops_git_clone [options...]
 					Styles which start with branch- assume the branch already exists and that you will not be switching branches 
 						because you like to work on multiple branches simulaneously without switching a folder's branch
 
-                    Examples for --url=https://github.com/habof/devops.git --branch=issue-1234 --path=${HOME}/code 
+                    Example repository locations for --url=https://github.com/habof/devops.git --branch=issue-1234 --path=${HOME}/code 
+					
+                    path-exact:  
+						i.e. ${HOME}/code 
 
                     folder:  
 						i.e. ${HOME}/code/github.com/habof/devops 
@@ -86,7 +89,7 @@ case "${1}" in
 	--style=*)
 	style="${1#*=}"
 	;;
-	-b)
+	-s)
 	style="${2}"
     shift
 	;;
@@ -119,11 +122,15 @@ name=`devops_git_url_parse ${url} name`
 dirshort=`devops_git_url_parse ${url} dirshort`
 dirlong=`devops_git_url_parse ${url} dirlong`
 
-mkdir -p ${path}
 cd_to=${path}
 clone_as=${name}
 add_branch=" --branch ${branch}"
 case "${style}" in
+	path-exact)
+	    cd_to="$(dirname $path)"   
+        clone_as="$(basename $path)"  
+		add_branch=""
+	;;
 	folder)
 		cd_to="${path}/${dirlong}"
 		add_branch=""
@@ -164,13 +171,10 @@ case "${style}" in
 	return devops_return_error "style argument invalid"
 esac
      
-
-echo "cd_to: ${cd_to}"
-echo "clone_as: ${clone_as}"
-
-
+mkdir -p ${cd_to}
 clone_cmd="git clone${add_branch} ${url} ${clone_as}"
 echo "clone into: ${cd_to}"
+echo "clone_as: ${clone_as}"
 echo "clone command: ${clone_cmd}"
 
 mkdir -p ${cd_to}
