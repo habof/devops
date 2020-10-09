@@ -1,0 +1,1 @@
+Some of these scripts are designed to run as root on a server. If you do not have root privileges you will need to modify then to run as a privileged user using sudo
