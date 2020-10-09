@@ -11,6 +11,14 @@
   cd /root
   git clone your-clone-url .server-conf-backup
   ```
+* Make sure /root/.profile contains this
+  ```bash
+  if [ "$BASH" ]; then
+    if [ -f ~/.bashrc ]; then
+      . ~/.bashrc
+    fi
+  fi  
+  ```
 * Create and run this script (or similar to meet your needs) as root
   ```bash
   #!/bin/bash
