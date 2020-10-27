@@ -1,12 +1,32 @@
 # Devops
-* Scripts to make development easier 
+* bash functions to make development easier 
 * Sample server management scripts
-## Setup
 
-* Clone this repo into your home directory so that you may reference all scripts from within ~/devops
-* Make a copy of ~/devops/.bashrc-example as ~/devops/.bashrc
-* Make any changes you'd like in the preferences section of ~/devops/.bashrc
-* Add this line at the end of ~/.bashrc
+## Prerequisites
+* git installed OR [Git for Windows](https://gitforwindows.org/) (git bash) if you are using windows - make sure to be on the latest version
+* Make sure ssh is set up
+    ```
+    mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
+    touch ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
+    touch ~/.ssh/config
+    ```    
+* If you don't already have an id_rsa key pair (id_rsa and id_rsa.pub) in ~/.ssh then generate the pair without a passphrase (hit enter when prompted for the passphrase).
+    ```
+    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+    ```
+ 
+## Setup
+* Clone this repo and note the clone location
+* Add these lines at the end of ~/.bashrc and modify with your preferences and clone location
   ```
-  source ~/devops/.bashrc
+  # BEGIN devops settings for .bashrc
+  DEVOPS_GIT_CLONE_PATH=${HOME}/gitb
+  DEVOPS_GIT_CLONE_STYLE=branch-namespace
+
+  export DEVOPS_GIT_CLONE_PATH
+  export DEVOPS_GIT_CLONE_STYLE
+  source /clone/location/init.sh
+  # END devops settings for .bashrc
   ```
