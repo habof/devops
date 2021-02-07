@@ -22,11 +22,12 @@
 * Add these lines at the end of ~/.bashrc and modify with your preferences and clone location
   ```
   # BEGIN devops settings for .bashrc
-  DEVOPS_GIT_CLONE_PATH=${HOME}/gitb
+  DEVOPS_ROOT=/path/to/devops/clone
+  DEVOPS_GIT_CLONE_PATH=${HOME}/github
   DEVOPS_GIT_CLONE_STYLE=branch-namespace
 
   export DEVOPS_GIT_CLONE_PATH
   export DEVOPS_GIT_CLONE_STYLE
-  source /clone/location/init.sh
+  source ${DEVOPS_ROOT}/init.sh
   # END devops settings for .bashrc
   ```
