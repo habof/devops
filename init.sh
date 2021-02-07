@@ -42,11 +42,13 @@ devops_return_rc () {
 }
 
 # remaining functions
+source ${DEVOPS_ROOT}/bash_functions/devops_git_url_parse.sh
 source ${DEVOPS_ROOT}/bash_functions/devops_cmd_for_git_clone.sh
 source ${DEVOPS_ROOT}/bash_functions/devops_git_url_parse.sh
 source ${DEVOPS_ROOT}/bash_functions/devops_git_branch.sh
 source ${DEVOPS_ROOT}/bash_functions/devops_git_clone.sh
-source ${DEVOPS_ROOT}/bash_functions/devops_git_merge.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_get_latest.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_merge_to_env.sh
 
 # setup (last due to dependencies)
 source ${DEVOPS_ROOT}/bash_functions/devops_setup.sh
