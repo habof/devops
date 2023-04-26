@@ -1,6 +1,6 @@
 #!/bin/bash
-devops_git_clone() {
-    
+devops_cmd_for_git_clone() {
+
 valid_styles=( \
 path-exact \
 folder \
@@ -21,8 +21,13 @@ branch-folder-simple \
 branch-namespace \
 branch-namespace-no-host \
 )
-valid_workspace_types=( \
-vscode \
+valid_response_types=( \
+path \
+branch \
+style \
+repository-name \
+clone-directory \
+clone-command \
 )
 
 # unset and default vars
@@ -32,6 +37,7 @@ unset branch
 [ -n "${path}" ] || path=${HOME}
 [ ! -n "${DEVOPS_GIT_CLONE_STYLE}" ] || style=${DEVOPS_GIT_CLONE_STYLE}
 [ -n "${style}" ] || style=namespace
+response_type='clone-command'
 
 # The help text / documentation
 help_text="
@@ -89,10 +95,11 @@ Usage: devops_cmd_for_git_clone [options...]
 	branch-namespace-no-host:  
 		i.e. /path/to/code/issue-1234.devops 
 
--w, --workspace-type=     
-	Add a workspace to repository
-	Valid values: ${valid_workspace_types[@]}
+-r, --response-type= 
+	Valid values: ${valid_response_types[@]}
 
+	Defaults to ${response_type}
+                                        
 -h, --help    
 "
 
@@ -127,11 +134,11 @@ case "${1}" in
 	style="${2}"
     shift
 	;;
-	--workspace-type=*)
-	workspace_type="${1#*=}"
+	--response-type=*)
+	response_type="${1#*=}"
 	;;
-	-w)
-	workspace_type="${2}"
+	-r)
+	response_type="${2}"
     shift
 	;;
     -h|--help)
@@ -147,6 +154,7 @@ done
 [ -n "${url}" ] || devops_return_error "url argument required" || return 1
 [ -n "${path}" ] || devops_return_error "path argument required" || return 1
 [ -n "${style}" ] || devops_return_error "style argument required" || return 1
+[ -n "${response_type}" ] || devops_return_error "response-type argument required" || return 1
 
 unset is_valid_style
 for a in "${valid_styles[@]}" ; do
@@ -160,13 +168,11 @@ for a in "${valid_branch_styles[@]}" ; do
 	fi
 done
 
-if [ -n "${workspace_type}" ]; then
-    unset is_valid_workspace_type
-	for a in "${valid_workspace_types[@]}" ; do
-		[ "$a" == "${workspace_type}" ] && is_valid_workspace_type=0
-	done
-	[[ $is_valid_workspace_type && ${is_valid_workspace_type-x} ]] || devops_return_error "invalid workspace-type argument" || return 1
-fi
+unset is_valid_response_type
+for a in "${valid_response_types[@]}" ; do
+     [ "$a" == "${response_type}" ] && is_valid_response_type=0
+done
+[[ $is_valid_response_type && ${is_valid_response_type-x} ]] || devops_return_error "invalid response-type argument" || return 1
 
 repository_name=`devops_git_url_parse ${url} name`
 dirshort=`devops_git_url_parse ${url} dirshort`
@@ -209,36 +215,16 @@ case "${style}" in
 	branch-namespace-no-host)
 		clone_folder=`echo "${branch}/${dirshort}/${repository_name}" | tr / .`
 	;;
+	*)
+	devops_return_error "style argument invalid" || return 1
 esac
 add_branch=""
 clone_directory="${clone_path_parent}/${clone_folder}"
 [ -n "${branch}" ] && add_branch=" --branch ${branch}"     
-clone_command="git clone${add_branch} ${url} ${clone_folder}"
-echo "clone_path_parent: ${clone_path_parent}"
-echo "clone_directory: ${clone_directory}"
-echo "clone_command: ${clone_command}"
-
-calling_path=`pwd -P`
-echo "saving your location (${calling_path})"
-mkdir -p "${clone_path_parent}"
-cd "${clone_path_parent}"
-${clone_command} 2>/dev/null
-cd "${clone_directory}"
-
-[ -n "${workspace_type}" ] && {
-case "${workspace_type}" in
-	vscode)
-	    echo "{\"folders\":[{\"name\": \"${repository_name}\",\"path\": \"${clone_folder}\"}]}" > "${clone_path_parent}/${clone_folder}.code-workspace"
-	;;
-esac
-}
-
-pwd
-git status
-echo "returning you to (${calling_path})"
-cd ${calling_path}
-
-
-
+clone_command="mkdir -p ${clone_path_parent}; cd ${clone_path_parent}; git clone${add_branch} ${url} ${clone_folder}"
+response_type2=`echo "${response_type}" | tr - _`
+for a in "${valid_response_types[@]}" ; do
+	[ "$a" == "${response_type}" ] && devops_return_success "${!response_type2}" && return 0
+done
 
 }

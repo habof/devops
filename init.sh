@@ -18,7 +18,7 @@ devops_exit_success () {
 }
 devops_exit_error () {
     echo "$@"
-    exit 2
+    exit 1
 }
 devops_exit_rc () {
     rc=${1}
@@ -32,7 +32,7 @@ devops_return_success () {
 }
 devops_return_error () {
     echo "$@"
-    return 2
+    return 1
 }
 devops_return_rc () {
     rc=${1}
@@ -42,10 +42,13 @@ devops_return_rc () {
 }
 
 # remaining functions
-source ~/devops/bash_functions/devops_git_url_parse.sh
-source ~/devops/bash_functions/devops_git_branch.sh
-source ~/devops/bash_functions/devops_git_clone.sh
-source ~/devops/bash_functions/devops_git_merge.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_url_parse.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_cmd_for_git_clone.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_url_parse.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_branch.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_clone.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_get_latest.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_git_merge_to_env.sh
 
 # setup (last due to dependencies)
-source ~/devops/bash_functions/devops_setup.sh
+source ${DEVOPS_ROOT}/bash_functions/devops_setup.sh
